@@ -6,9 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function(){
         var textInput = document.getElementById("textInput");
         document.getElementById("heading").innerHTML = textInput.value;
-        firebase.database().ref('/').set(
+        firebase.database().ref('users/Ben').set(
             {
-                message: 'Hello world!'
+                age: 99,
+                feet: 2,
+                hair: "insufficient"
             }
         )
 })
