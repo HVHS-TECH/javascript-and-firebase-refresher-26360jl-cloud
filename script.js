@@ -6,5 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function(){
         var textInput = document.getElementById("textInput");
         document.getElementById("heading").innerHTML = textInput.value;
+        firebase.database().ref('/').set(
+            {
+                message: 'Hello world!'
+            }
+        )
 })
 })
