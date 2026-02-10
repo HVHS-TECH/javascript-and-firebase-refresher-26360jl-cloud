@@ -1,3 +1,5 @@
+var currentUser;
+
 document.addEventListener("DOMContentLoaded", function () {
     firebase.initializeApp(firebaseConfig);
 
@@ -26,10 +28,54 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 })
 
+function saveText()
+{
+    if (currentUser == null)
+    {
+        console.log("not logged in")
+        alert("Login first to save message");
+        return
+    }
+
+    var textInput = document.getElementById("userTextInput");
+
+    if (textInput.value.length <= 0)
+    {
+        alert("No message")
+        return
+    }
+
+    console.log(Date.now());
+
+    firebase.database().ref('/savedMessages/' + Date.now()).set(
+            {
+                uid: currentUser.uid,
+                name: currentUser.displayName,
+                message: textInput.value
+            }
+    )
+}
+
+function showEverything()
+{
+    firebase.database().ref('/savedMessages/').once('value', writeMessage);
+}
+
+function writeMessage(snapshot)
+{
+    const keysArray = Object.keys(snapshot.val());
+    const valuesArray = Object.values(snapshot.val());
+}
+
+function displayMessage(messageObject)
+{
+
+}
+
 function fb_readOnce()
 {
     console.log("read once");
-    firebase.database().ref('/message').on('value', fb_logDatabaseRead, fb_error);
+    firebase.database().ref('/message').once('value', fb_logDatabaseRead, fb_error);
 }
 
 function fb_logDatabaseRead(snapshot)
@@ -40,8 +86,8 @@ function fb_logDatabaseRead(snapshot)
         return;
     }
 
-    document.getElementById("fbHeader").innerHTML = snapshot.val();
-    console.log(snapshot.val());
+    document.getElementById("fbHeader").innerHTML = snapshot.val().msg
+    console.log(snapshot.val().msg);
 }
 
 function fb_error(error)
