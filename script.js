@@ -65,11 +65,20 @@ function writeMessage(snapshot)
 {
     const keysArray = Object.keys(snapshot.val());
     const valuesArray = Object.values(snapshot.val());
+
+    const container = document.getElementById("messageContainer");
+
+    for(var i = keysArray.length - 1; i >= 0; i--)
+    {
+        displayMessage(container, keysArray[i], valuesArray[i].name, valuesArray[i].message)
+    }
 }
 
-function displayMessage(messageObject)
+function displayMessage(container, timeStamp, name, message)
 {
-
+    const newParagraph = document.createElement("li");
+    newParagraph.textContent = name + ": " + message;
+    container.appendChild(newParagraph);
 }
 
 function fb_readOnce()
