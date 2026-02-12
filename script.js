@@ -68,6 +68,11 @@ function writeMessage(snapshot)
 
     const container = document.getElementById("messageContainer");
 
+    while (container.children.length > 0)
+    {
+        container.children[0].remove();
+    }
+
     for(var i = keysArray.length - 1; i >= 0; i--)
     {
         displayMessage(container, keysArray[i], valuesArray[i].name, valuesArray[i].message)
